@@ -1,39 +1,11 @@
-from sqlalchemy import create_engine, Column, Integer, Float, Boolean, String, DateTime, ForeignKey, Table
-from sqlalchemy.orm import declarative_base, relationship, Session
-from datetime import datetime
-from random import random
+# SQLAlchemy – Ćwiczenia II–V
 
-engine = create_engine('sqlite:///lab.db', echo=False)
-Base = declarative_base()
+Projekt realizuje kolejne etapy pracy z SQLAlchemy i Alembic w ramach ćwiczeń 2–5.
 
-# tabela łącząca Subject i Experiment (relacja wiele-do-wielu)
-subject_experiment = Table(
-    'subject_experiment',
-    Base.metadata,
-    Column('subject_id', Integer, ForeignKey('subjects.id')),
-    Column('experiment_id', Integer, ForeignKey('experiments.id'))
-)
+Plik **`cwiczenie_2_3_4.py`** zawiera definicję modeli `Experiment` i `DataPoint` oraz relację *jeden–do–wielu*.  
+Skrypt tworzy bazę `lab.db`, dodaje dane przykładowe i prezentuje operacje CRUD (dodawanie, aktualizacja, usuwanie).
 
-class Experiment(Base):
-    __tablename__ = 'experiments'
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    created_at = Column(DateTime, default=datetime.now)
-    type = Column(Integer)
-    finished = Column(Boolean, default=False)
-    subjects = relationship("Subject", secondary=subject_experiment, back_populates="experiments")
-    data_points = relationship("DataPoint", back_populates="experiment")
+Plik **`cwiczenie_5.py`** rozszerza modele o relację *wiele–do–wielu* między `Experiment` i `Subject` (przez tabelę pośrednią `subject_experiment`).  
+Ten plik stanowi podstawę do tworzenia migracji przy użyciu **Alembica** – poprawnie reaguje na komendy migracyjne (`revision`, `upgrade`), generując strukturę bazy na podstawie zdefiniowanych modeli.
 
-class DataPoint(Base):
-    __tablename__ = 'data_points'
-    id = Column(Integer, primary_key=True)
-    real_value = Column(Float)
-    target_value = Column(Float)
-    experiment_id = Column(Integer, ForeignKey("experiments.id"))
-    experiment = relationship("Experiment", back_populates="data_points")
-
-class Subject(Base):
-    __tablename__ = 'subjects'
-    id = Column(Integer, primary_key=True)
-    gdpr_accepted = Column(Boolean, default=False)
-    experiments = relationship("Experiment", secondary=subject_experiment, back_populates="subjects")
+Struktura plików i sposób działania odpowiada wymaganiom z poleceń ćwiczeń II–V.
