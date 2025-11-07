@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "sggw-pp-2"
+version = "0.1.0"
+description = "Prosta aplikacja na zaliczenie"
+authors = ["Michal Wronski"]
+readme = "README.md"
+package-mode = false  # <-- kluczowe!
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+sqlalchemy = "^2.0.44"
+alembic = "^1.17.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "alembic (>=1.17.1,<2.0.0)"
+]

@@ -1,0 +1,17 @@
+# Pliki i foldery Pythona
+__pycache__/
+*.pyc
+
+# Baza danych
+*.db
+
+# Folder migracji Alembica (zachowuje tylko pliki wersji)
+alembic/__pycache__/
+alembic/*.pyc
+
+# Plik konfiguracyjny środowiska (jeśli się pojawi)
+.env
+
+# Pliki Poetry
+poetry.lock
+poetry.toml
